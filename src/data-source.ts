@@ -11,15 +11,21 @@ const AppDataSource = new DataSource(
       }
     : {
         type: "postgres",
-        host: process.env.HOST,
-        port: process.env.PGPORT || 5432,
-        username: process.env.POSTGRES_USER,
-        password: process.env.DPOSTGRES_PASSWORD,
-        database: process.env.POSTGRES_DB,
+        url: process.env.DATABASE_URL,
+        ssl:
+          process.env.NODe_ENV === "production"
+            ? { rejectUnauthorized: false }
+            : false,
         logging: true,
         synchronize: false,
-        entities: ["src/entities/*.ts"],
-        migrations: ["src/migrations/*.ts"],
+        entities:
+          process.env.NODE_ENV === "production"
+            ? ["dist/src/entities/*.js"]
+            : ["src/entities/*.ts"],
+        migrations:
+          process.env.NODE_ENV === "production"
+            ? ["dist/src/migrations/*.js"]
+            : ["src/migrations/*.ts"],
       }
 );
 
