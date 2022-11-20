@@ -22,7 +22,6 @@
  
 ## Links de acesso
 
-- Aplicação em produção: https://
 - <a href="https://github.com/GutembergLamark/ng-cash-teste-backend">Repositório</a>
 
 #
