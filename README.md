@@ -15,7 +15,6 @@
 - ### Yup - Validação e serialização
 - ### Express-async-errors - Tratamento de erros
 - ### PostgresSQL - Sistema gerenciador de banco de dados(SGDB)
-- ### Heroku - Deploy
 - ### Docker - Conteinerização
 
 <br/> 
