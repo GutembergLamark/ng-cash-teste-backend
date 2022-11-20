@@ -42,7 +42,7 @@ const createCashOutService = async (
     id: userCashIn.account.id,
   });
 
-  if (debitedAccount!.balance < value) {
+  if (debitedAccount!.balance < Number(value)) {
     throw new AppError("Not enough balance for this transaction", 403);
   }
 
