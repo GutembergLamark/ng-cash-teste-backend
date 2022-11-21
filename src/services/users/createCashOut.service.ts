@@ -51,7 +51,7 @@ const createCashOutService = async (
   });
 
   await accountRepository.update(creditedAccount!.id, {
-    balance: creditedAccount!.balance + value,
+    balance: Number(creditedAccount!.balance) + value,
   });
 
   const updatedDebitedAccount = await accountRepository.findOneBy({
