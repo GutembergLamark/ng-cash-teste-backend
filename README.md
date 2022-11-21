@@ -146,6 +146,229 @@ $npm run test
 
 ## ✅ Utilização
 
-### Para lhe auxiliar na avaliação da aplicação estou diponibilizando um arquivo json de fácil importação no <a href="https://insomnia.rest/download">Insomnia</a> com todas as rotas criadas e prontas pra teste. O arquivo se encontra na raiz do projeto e está nomeado como Insomnia_2022-11-20.json
+### Para lhe auxiliar na avaliação da aplicação estou diponibilizando um arquivo json de fácil importação no <a href="https://insomnia.rest/download">Insomnia</a> com todas as rotas criadas e prontas pra teste. O arquivo se encontra na raiz do projeto e está nomeado como <code>Insomnia_2022-11-20.json</code>
 
 #
+
+## ✅ Rotas
+
+#
+
+### POST Register - "/users"
+
+<br/>
+
+<p>Essa rota vai realizar o cadastro do usuário na plataforma, sendo necessário informar um username com 3 ou mais caracters e uma senha com 8 caracters, 1 letra maiúscula, uma letra minúscula, um número e um caracter especial</p>
+
+<br/>
+
+<h3>Envio:</h3>
+
+<br/>
+
+```bash
+{
+    username: "Sergio",
+    password: "Sergio@123"
+}
+```
+
+<br/>
+
+<h3>Resposta:</h3>
+
+<br/>
+
+<p>Na resposta da requisição é retornado o usuário criado com o username, id e dados da conta bancária já iniciando com um saldo de 100 reais</p>
+
+<br/>
+
+```bash
+    {
+	"user": {
+		"username": "Sergio",
+		"account": {
+			"id": "dcbc0a0a-e324-4396-a518-e0a4962ce772",
+			"balance": "100.00"
+		},
+		"id": "ab9ae89b-b3dc-4199-8a0d-42e38eea2c94"
+	}
+}
+```
+
+#
+
+### POST Session - "/session"
+
+<br/>
+
+<p>Essa rota vai realizar o login do usuário na aplicação. São necessários o username e o password do usuário</p>
+
+<br/>
+
+<h3>Envio:</h3>
+
+<br/>
+
+```bash
+{
+    username: "Sergio",
+    password: "Sergio@123"
+}
+```
+
+<br/>
+
+<h3>Resposta:</h3>
+
+<br/>
+
+<p>Na resposta da requisição é retornado o token de atutenticação jwt que vai validar as permissões do usuário durante todo o fluxo da apĺicação</p>
+
+<br/>
+
+```bash
+    {
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiJkY2JjMGEwYS1lMzI0LTQzOTYtYTUxOC1lMGE0OTYyY2U3NzIiLCJpYXQiOjE2NjkwNDU4ODksImV4cCI6MTY2OTEzMjI4OSwic3ViIjoiYWI5YWU4OWItYjNkYy00MTk5LThhMGQtNDJlMzhlZWEyYzk0In0.IPonJiYwmDXWGZAxr4Wm01T0hzL9h8cucN7fSylihaE"
+}
+```
+
+#
+
+### GET Profile - "/profile"
+
+<br/>
+
+<p>Esta rota vai retornar todos os dados do usuário que estiver logado e autenticado via JWT na aplicação, não é necessário argumentos para está requisição</p>
+
+<br/>
+
+<h3>Resposta:</h3>
+
+<br/>
+
+<p>Na resposta da requisição é retornado um objeto com todos os dados do usuário, incluindo id, username, account e transações de cash out e cashin</p>
+
+<br/>
+
+```bash
+    {
+	"user": {
+		"id": "ab9ae89b-b3dc-4199-8a0d-42e38eea2c94",
+		"username": "Sergio",
+		"account": {
+			"id": "dcbc0a0a-e324-4396-a518-e0a4962ce772",
+			"balance": "90.00",
+			"creditedTransactions": [],
+			"debitedTransactions": [
+				{
+					"id": "1bef501c-001b-4b41-93f7-c19e09789e66",
+					"value": "20.00",
+					"createdAt": "2022-11-21T15:27:15.863Z"
+				},
+			]
+		}
+	}
+}
+```
+
+#
+
+### POST Cashout - "/users/cashout"
+
+<br/>
+
+<p>Esta rota vai criar uma transação de cash out, são necessários o username do usuário de destino e o valor da transação, a rota é autenticada, por isso é necessário que se passe um token para executá-la, não é possível realizar cashout para o próprio usuário</p>
+
+<br/>
+
+<h3>Envio:</h3>
+
+<br/>
+
+```bash
+{
+    username: "Marcos",
+    value: 5.43
+}
+```
+
+<br/>
+
+<h3>Resposta:</h3>
+
+<br/>
+
+<p>Na resposta da requisição são retornados os dados da transação como valor, id e saldo do usuário que foi debitado, id e saldo do usuário que foi creditado, id da transação e data de criação</p>
+
+<br/>
+
+```bash
+    {
+	"transaction": {
+		"value": "5.43",
+		"debitedAccount": {
+			"id": "dcbc0a0a-e324-4396-a518-e0a4962ce772",
+			"balance": "24.40"
+		},
+		"creditedAccount": {
+			"id": "e7acd515-3df3-41a9-8339-33fa099a9f58",
+			"balance": "22.03"
+		},
+		"id": "fd6df659-64eb-4f32-898e-10b14540375a",
+		"createdAt": "2022-11-21T16:20:05.144Z"
+	}
+}
+```
+
+#
+
+### GET Account - "/users/account"
+
+<br/>
+
+<p>Esta rota vai retornar todos os dados da conta bancária do usuário, não sendo necessário passar argumentos no corpo da requisição, mas é obrigatório o uso de token</p>
+
+<br/>
+
+<h3>Envio:</h3>
+
+<br/>
+
+```bash
+{
+    username: "Marcos",
+    value: 5.43
+}
+```
+
+<br/>
+
+<h3>Resposta:</h3>
+
+<br/>
+
+<p>Na resposta da requisição são retornados os dados da conta bancária como id, balance, lista de transações de cash in e transações de cash out </p>
+
+<br/>
+
+```bash
+    {
+	"account": {
+		"id": "0bd8092b-2c82-4dde-b2af-608315d21eac",
+		"balance": 100,
+		"creditedTransactions": [],
+		"debitedTransactions": []
+	    }
+    }
+```
+
+#
+
+<h1 align="center">Desenvolvedor</h1>
+
+<h2 align="center">Gutemberg Lamark Araújo Batista</h2>
+
+<br/>
+
+<h2 align="center"><img src="https://avatars.githubusercontent.com/u/89531845?v=4" width="250px"></h2>
