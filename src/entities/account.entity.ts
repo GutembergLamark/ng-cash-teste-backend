@@ -6,7 +6,7 @@ export class Account {
   @PrimaryGeneratedColumn("uuid")
   readonly id!: string;
 
-  @Column()
+  @Column({ type: "decimal", precision: 10, scale: 2, default: 0 })
   balance!: number;
 
   @OneToMany(() => Transaction, (transaction) => transaction.creditedAccount, {
