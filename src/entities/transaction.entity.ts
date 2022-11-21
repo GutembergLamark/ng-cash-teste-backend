@@ -18,7 +18,7 @@ export class Transaction {
   @ManyToOne(() => Account, (account) => account.creditedTransactions)
   creditedAccount?: Account;
 
-  @Column("decimal", { precision: 8, scale: 2 })
+  @Column({ type: "decimal", precision: 10, scale: 2, default: 0 })
   value!: number;
 
   @CreateDateColumn()
